@@ -24,7 +24,7 @@ var container = new PIXI.Container();
 // Add container to canvas
 app.stage.addChild(container);
 // Define texture for use with displacement
-var texture = new PIXI.Texture.fromImage('img/corona.png');
+var texture = new PIXI.Texture.fromImage('img/sun.png');
 // Create sprite (bottom layer)
 var bottom = new PIXI.Sprite(texture);
 // Instantiate graphics class to draw shapes
