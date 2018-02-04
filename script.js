@@ -14,7 +14,7 @@ class Corona {
 }
 
 // Create PIXI canvas
-var app = new PIXI.Application(525, 525, {transparent: true});
+var app = new PIXI.Application(525, 525, {transparent: true, antialias: true});
 // Position to put canvas in
 var position = document.getElementById('sun');
 // Add canvas to dom
@@ -29,26 +29,28 @@ var texture = new PIXI.Texture.fromImage('img/corona.png');
 var bottom = new PIXI.Sprite(texture);
 // Instantiate graphics class to draw shapes
 var graphics = new PIXI.Graphics();
+// Draw sun
+var radians = app.renderer.screen.width / 2;
+// Sun graphic
+var sunGraphic = new PIXI.Sprite.fromImage('img/sun.png');
+// Set the fill color
+graphics.beginFill(); // Red
+// Draw a circle
+graphics.drawCircle(radians, radians, radians - 10); // drawCircle(x, y, radius)
+// Applies fill to lines and shapes since the last call to beginFill.
+graphics.endFill();
+// Mask for graphics
+sunGraphic.mask = graphics;
 // Add graphics to canvas
+app.stage.addChild(sunGraphic);
 app.stage.addChild(graphics);
-
-/** Messing with filters **/
-  // container.filters = [
-  //   new PIXI.filters.BloomFilter(),
-  //   new GlowFilter(15, 2, 1, 0xFF0000, 0.5)
-  // ];
-  // console.log(app.stage);
-
-  // var glow = new GlowFilter(15, 2, 1, 0xff9999, 0.5);
-
-  // bottom.width = app.renderer.screen.width;
-  // bottom.height = app.renderer.screen.height;
-/** Messing with filters **/
 
 // Create displacement sprite
 var displacementSprite = PIXI.Sprite.fromImage('img/displacement.png');
 // Create displacement filter
 var displacementFilter = new PIXI.filters.DisplacementFilter(displacementSprite, 10);
+// Glow filter
+// var glowFilter = new PIXI.filters.GlowFilter(15, 2, 1, 0xff9999, 0.5);
 // Displacement filter settings
 displacementFilter.autoFit = true;
 displacementSprite.texture.baseTexture.wrapMode = PIXI.WRAP_MODES.REPEAT;
@@ -61,7 +63,10 @@ container.addChild(bottom);
 // Turn off interaction
 container.interactive = false;
 // Apply filters
-container.filters = [displacementFilter];
+container.filters = [
+  displacementFilter
+  // glowFilter
+];
 
 // Create corona effect (instantiate Corona Class)
 let wind = new Corona(0, 0.2);
@@ -78,20 +83,18 @@ app.ticker.add(() => {
   displacementSprite.y += wind.y;
 });
 
-// Draw sun
-var gradient = app.createLinearGradient(0, 0, app.renderer.screen.width, 0);
-
-var radians = app.renderer.screen.width / 2;
-gradient.addColorStop(0, '#ffc052');
-gradient.addColorStop(1, '#e0205b');
-gradientCtx.fillStyle = gradient;
-// canvas.drawCircle(radians, radians, radians - 10);
 
 
-// var sun = new PIXI.Texture.fromCanvas(gradientCtx);
-console.log(canvas);
 
 
+
+
+
+
+
+////////////////////////////////
+////// ---- OLD CODE ---- //////
+////////////////////////////////
 
 // function animate() {
 //   // requestAnimationFrame(animate);
